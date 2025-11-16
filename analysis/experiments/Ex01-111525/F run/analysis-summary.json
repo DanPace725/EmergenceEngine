@@ -1,0 +1,235 @@
+{
+  "runFolder": "F run",
+  "analysisTimestamp": "2025-11-16T06:12:36.009Z",
+  "filesAnalyzed": 4,
+  "summaries": [
+    {
+      "file": "baseline-metrics-2025-11-16T05-05-08.json",
+      "type": "baseline-metrics",
+      "summary": {
+        "type": "baseline-metrics",
+        "metadata": {
+          "exportedAt": "2025-11-16T05:05:08.364Z",
+          "type": "baseline",
+          "snapshotCount": 40,
+          "config": {
+            "agentCount": 3,
+            "rewardChi": 10,
+            "autoMove": true,
+            "moveSpeedPxPerSec": 150
+          }
+        },
+        "snapshotCount": 40,
+        "timeRange": {
+          "start": 630,
+          "end": 1800,
+          "duration": 1170
+        },
+        "finalState": {
+          "tick": 1800,
+          "alive_ratio": 1,
+          "mean_chi": 155.36,
+          "std_chi": 46.17,
+          "roi": 12,
+          "coverage": 0.177,
+          "frontier_rate": 3.43,
+          "heading_entropy": 0.473
+        },
+        "averages": {
+          "alive_ratio": 1,
+          "mean_chi": 140.91,
+          "std_chi": 35.06,
+          "roi": 17.65,
+          "coverage": 0.12,
+          "frontier_rate": 3.21,
+          "heading_entropy": 0.52,
+          "moved_ratio": 3,
+          "find_rate": 41.67
+        }
+      }
+    },
+    {
+      "file": "config-profile-gen5-2025-11-16T05-08-55-976Z.json",
+      "type": "config-profile",
+      "summary": {
+        "type": "config-profile",
+        "name": "Optimized F (gen5)",
+        "description": "Auto-optimized config targeting F objective. Fitness: 0.000, Convergence: 86.6%",
+        "snapshot": {
+          "version": 1,
+          "ts": 1763269735976,
+          "params": {
+            "baseDecayPerSecond": 0.13103406414624522,
+            "moveSpeedPxPerSec": 148.18365078907667,
+            "moveCostPerSecond": 0.5078932240802413,
+            "sensing.radius": 80.90480117329732,
+            "sensing.costPerSecond": 0.06759649074666603,
+            "sensing.radiusRangeFactor": 3,
+            "trail.emitPerSecond": 0.9278540532390064,
+            "trail.decayPerSecond": 0.10800173373314448,
+            "trail.attractionGain": 0.13045705211991881,
+            "trail.costPerSecond": 0.027864783088709932,
+            "frustration.riseRate": 0.0666591319997498,
+            "frustration.fallRate": 0.1755232532552799,
+            "frustration.noiseGain": 1.3004584840189595,
+            "frustration.hungerAmplify": 0.5511992369894563,
+            "link.formCost": 0.6961293799737971,
+            "link.maintPerSec": 0.015043836437817235,
+            "link.decayPerSec": 0.020340230669234734,
+            "link.strengthenPerUse": 0.05387343061397731,
+            "link.guidanceGain": 0.5348634998226939
+          }
+        }
+      }
+    },
+    {
+      "file": "essence-state-2025-11-16T05-15-46.json",
+      "type": "essence-state",
+      "summary": {
+        "type": "essence-state",
+        "metadata": {
+          "version": 1,
+          "exportedAt": "2025-11-16T05:15:46.389Z"
+        },
+        "world": {
+          "nextAgentId": 10,
+          "totalBirths": 6,
+          "collected": 402,
+          "carryingCapacity": 60,
+          "resourcePressure": 0
+        },
+        "agents": {
+          "total": 6,
+          "alive": 6,
+          "generations": 2,
+          "averageChi": 78.97314213724731,
+          "minChi": 29.947458108490093,
+          "maxChi": 95.6138562755837
+        },
+        "resources": {
+          "total": 50,
+          "depleted": 0,
+          "averageVitality": 0.9966529497307971,
+          "minVitality": 0.9644166885930945,
+          "maxVitality": 1
+        },
+        "bundles": [
+          {
+            "id": 1,
+            "generation": 0,
+            "chi": 95.07,
+            "position": {
+              "x": 351.09,
+              "y": 458.26
+            },
+            "velocity": {
+              "x": 29.32,
+              "y": 141.74
+            },
+            "heading": 0.94,
+            "parentId": null,
+            "lastMitosisTick": 8228
+          },
+          {
+            "id": 3,
+            "generation": 0,
+            "chi": 89.24,
+            "position": {
+              "x": 697.44,
+              "y": 644.91
+            },
+            "velocity": {
+              "x": -120.99,
+              "y": 98.98
+            },
+            "heading": 2.6,
+            "parentId": null,
+            "lastMitosisTick": 7182
+          },
+          {
+            "id": 6,
+            "generation": 1,
+            "chi": 92.42,
+            "position": {
+              "x": 1440.6,
+              "y": 693.78
+            },
+            "velocity": {
+              "x": 138.82,
+              "y": -60
+            },
+            "heading": -0.5,
+            "parentId": 1,
+            "lastMitosisTick": 8658
+          },
+          {
+            "id": 7,
+            "generation": 1,
+            "chi": 95.61,
+            "position": {
+              "x": 1470.76,
+              "y": 212.09
+            },
+            "velocity": {
+              "x": 10.77,
+              "y": 146.91
+            },
+            "heading": 1.27,
+            "parentId": 3,
+            "lastMitosisTick": 7182
+          },
+          {
+            "id": 8,
+            "generation": 1,
+            "chi": 71.54,
+            "position": {
+              "x": 1401.7,
+              "y": 707.36
+            },
+            "velocity": {
+              "x": 150.51,
+              "y": 53.38
+            },
+            "heading": 0.34,
+            "parentId": 1,
+            "lastMitosisTick": 8228
+          },
+          {
+            "id": 9,
+            "generation": 2,
+            "chi": 29.95,
+            "position": {
+              "x": 449.34,
+              "y": 74.09
+            },
+            "velocity": {
+              "x": -21.79,
+              "y": -149.66
+            },
+            "heading": -1.76,
+            "parentId": 6,
+            "lastMitosisTick": 8658
+          }
+        ]
+      }
+    },
+    {
+      "file": "optimized-config-gen5-2025-11-16T05-08-55-976Z.json",
+      "type": "optimized-config",
+      "summary": {
+        "type": "optimized-config",
+        "metadata": {
+          "exportedAt": "2025-11-16T05:08:55.976Z",
+          "generation": 5,
+          "bestFitness": 0,
+          "objective": "F",
+          "convergence": 0.8663080256522242
+        },
+        "generation": 5,
+        "bestFitness": 0,
+        "objective": "F",
+        "convergence": 0.866
+      }
+    }
+  ]
+}

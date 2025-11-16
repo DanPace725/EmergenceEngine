@@ -1,0 +1,29 @@
+{
+  "name": "Optimized C (gen5)",
+  "description": "Auto-optimized config targeting C objective. Fitness: 0.000, Convergence: 82.5%",
+  "snapshot": {
+    "version": 1,
+    "ts": 1763270819263,
+    "params": {
+      "baseDecayPerSecond": 0.17332237239452505,
+      "moveSpeedPxPerSec": 129.83663086823046,
+      "moveCostPerSecond": 0.4435673203254381,
+      "sensing.radius": 103.12062608753259,
+      "sensing.costPerSecond": 0.08205865775191966,
+      "sensing.radiusRangeFactor": 1.5532842377161922,
+      "trail.emitPerSecond": 1.001419400038464,
+      "trail.decayPerSecond": 0.05035903488789802,
+      "trail.attractionGain": 0.0988298624415115,
+      "trail.costPerSecond": 0.005858302209104873,
+      "frustration.riseRate": 0.11071749678053165,
+      "frustration.fallRate": 0.1971122882429248,
+      "frustration.noiseGain": 1.827405367965507,
+      "frustration.hungerAmplify": 0.6384925514697328,
+      "link.formCost": 1.7954273310416689,
+      "link.maintPerSec": 0.011025034115547911,
+      "link.decayPerSec": 0.020523102434943243,
+      "link.strengthenPerUse": 0.06629050994559872,
+      "link.guidanceGain": 0.6586608987027885
+    }
+  }
+}

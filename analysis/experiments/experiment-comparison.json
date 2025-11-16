@@ -1,0 +1,1234 @@
+{
+  "comparisonTimestamp": "2025-11-16T06:12:41.036Z",
+  "runsCompared": 2,
+  "runNames": [
+    "C run",
+    "F run"
+  ],
+  "comparisons": {
+    "baseline-metrics": {
+      "available": true,
+      "runs": 2,
+      "metrics": {
+        "final_mean_chi": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 85.31
+            },
+            {
+              "run": "F run",
+              "value": 155.36
+            }
+          ],
+          "range": 70.05000000000001,
+          "min": 85.31,
+          "max": 155.36,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 85.31
+            },
+            {
+              "run": "F run",
+              "value": 155.36
+            }
+          ]
+        },
+        "final_coverage": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.164
+            },
+            {
+              "run": "F run",
+              "value": 0.177
+            }
+          ],
+          "range": 0.012999999999999984,
+          "min": 0.164,
+          "max": 0.177,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.164
+            },
+            {
+              "run": "F run",
+              "value": 0.177
+            }
+          ]
+        },
+        "final_frontier_rate": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 3.4
+            },
+            {
+              "run": "F run",
+              "value": 3.43
+            }
+          ],
+          "range": 0.03000000000000025,
+          "min": 3.4,
+          "max": 3.43,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 3.4
+            },
+            {
+              "run": "F run",
+              "value": 3.43
+            }
+          ]
+        },
+        "final_heading_entropy": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.612
+            },
+            {
+              "run": "F run",
+              "value": 0.473
+            }
+          ],
+          "range": 0.139,
+          "min": 0.473,
+          "max": 0.612,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.612
+            },
+            {
+              "run": "F run",
+              "value": 0.473
+            }
+          ]
+        },
+        "avg_mean_chi": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 62.82
+            },
+            {
+              "run": "F run",
+              "value": 140.91
+            }
+          ],
+          "range": 78.09,
+          "min": 62.82,
+          "max": 140.91,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 62.82
+            },
+            {
+              "run": "F run",
+              "value": 140.91
+            }
+          ]
+        },
+        "avg_coverage": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.1
+            },
+            {
+              "run": "F run",
+              "value": 0.12
+            }
+          ],
+          "range": 0.01999999999999999,
+          "min": 0.1,
+          "max": 0.12,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.1
+            },
+            {
+              "run": "F run",
+              "value": 0.12
+            }
+          ]
+        },
+        "avg_find_rate": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 45
+            },
+            {
+              "run": "F run",
+              "value": 41.67
+            }
+          ],
+          "range": 3.3299999999999983,
+          "min": 41.67,
+          "max": 45,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 45
+            },
+            {
+              "run": "F run",
+              "value": 41.67
+            }
+          ]
+        }
+      }
+    },
+    "config-profile": {
+      "available": true,
+      "runs": 2,
+      "metrics": {
+        "param_baseDecayPerSecond": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.17332237239452505
+            },
+            {
+              "run": "F run",
+              "value": 0.13103406414624522
+            }
+          ],
+          "range": 0.04228830824827984,
+          "min": 0.13103406414624522,
+          "max": 0.17332237239452505,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.17332237239452505
+            },
+            {
+              "run": "F run",
+              "value": 0.13103406414624522
+            }
+          ]
+        },
+        "param_moveSpeedPxPerSec": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 129.83663086823046
+            },
+            {
+              "run": "F run",
+              "value": 148.18365078907667
+            }
+          ],
+          "range": 18.347019920846208,
+          "min": 129.83663086823046,
+          "max": 148.18365078907667,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 129.83663086823046
+            },
+            {
+              "run": "F run",
+              "value": 148.18365078907667
+            }
+          ]
+        },
+        "param_moveCostPerSecond": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.4435673203254381
+            },
+            {
+              "run": "F run",
+              "value": 0.5078932240802413
+            }
+          ],
+          "range": 0.06432590375480318,
+          "min": 0.4435673203254381,
+          "max": 0.5078932240802413,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.4435673203254381
+            },
+            {
+              "run": "F run",
+              "value": 0.5078932240802413
+            }
+          ]
+        },
+        "param_sensing.radius": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 103.12062608753259
+            },
+            {
+              "run": "F run",
+              "value": 80.90480117329732
+            }
+          ],
+          "range": 22.21582491423527,
+          "min": 80.90480117329732,
+          "max": 103.12062608753259,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 103.12062608753259
+            },
+            {
+              "run": "F run",
+              "value": 80.90480117329732
+            }
+          ]
+        },
+        "param_sensing.costPerSecond": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.08205865775191966
+            },
+            {
+              "run": "F run",
+              "value": 0.06759649074666603
+            }
+          ],
+          "range": 0.014462167005253629,
+          "min": 0.06759649074666603,
+          "max": 0.08205865775191966,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.08205865775191966
+            },
+            {
+              "run": "F run",
+              "value": 0.06759649074666603
+            }
+          ]
+        },
+        "param_sensing.radiusRangeFactor": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 1.5532842377161922
+            },
+            {
+              "run": "F run",
+              "value": 3
+            }
+          ],
+          "range": 1.4467157622838078,
+          "min": 1.5532842377161922,
+          "max": 3,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 1.5532842377161922
+            },
+            {
+              "run": "F run",
+              "value": 3
+            }
+          ]
+        },
+        "param_trail.emitPerSecond": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 1.001419400038464
+            },
+            {
+              "run": "F run",
+              "value": 0.9278540532390064
+            }
+          ],
+          "range": 0.07356534679945759,
+          "min": 0.9278540532390064,
+          "max": 1.001419400038464,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 1.001419400038464
+            },
+            {
+              "run": "F run",
+              "value": 0.9278540532390064
+            }
+          ]
+        },
+        "param_trail.decayPerSecond": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.05035903488789802
+            },
+            {
+              "run": "F run",
+              "value": 0.10800173373314448
+            }
+          ],
+          "range": 0.057642698845246455,
+          "min": 0.05035903488789802,
+          "max": 0.10800173373314448,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.05035903488789802
+            },
+            {
+              "run": "F run",
+              "value": 0.10800173373314448
+            }
+          ]
+        },
+        "param_trail.attractionGain": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.0988298624415115
+            },
+            {
+              "run": "F run",
+              "value": 0.13045705211991881
+            }
+          ],
+          "range": 0.031627189678407316,
+          "min": 0.0988298624415115,
+          "max": 0.13045705211991881,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.0988298624415115
+            },
+            {
+              "run": "F run",
+              "value": 0.13045705211991881
+            }
+          ]
+        },
+        "param_trail.costPerSecond": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.005858302209104873
+            },
+            {
+              "run": "F run",
+              "value": 0.027864783088709932
+            }
+          ],
+          "range": 0.022006480879605057,
+          "min": 0.005858302209104873,
+          "max": 0.027864783088709932,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.005858302209104873
+            },
+            {
+              "run": "F run",
+              "value": 0.027864783088709932
+            }
+          ]
+        },
+        "param_frustration.riseRate": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.11071749678053165
+            },
+            {
+              "run": "F run",
+              "value": 0.0666591319997498
+            }
+          ],
+          "range": 0.04405836478078186,
+          "min": 0.0666591319997498,
+          "max": 0.11071749678053165,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.11071749678053165
+            },
+            {
+              "run": "F run",
+              "value": 0.0666591319997498
+            }
+          ]
+        },
+        "param_frustration.fallRate": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.1971122882429248
+            },
+            {
+              "run": "F run",
+              "value": 0.1755232532552799
+            }
+          ],
+          "range": 0.02158903498764489,
+          "min": 0.1755232532552799,
+          "max": 0.1971122882429248,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.1971122882429248
+            },
+            {
+              "run": "F run",
+              "value": 0.1755232532552799
+            }
+          ]
+        },
+        "param_frustration.noiseGain": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 1.827405367965507
+            },
+            {
+              "run": "F run",
+              "value": 1.3004584840189595
+            }
+          ],
+          "range": 0.5269468839465474,
+          "min": 1.3004584840189595,
+          "max": 1.827405367965507,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 1.827405367965507
+            },
+            {
+              "run": "F run",
+              "value": 1.3004584840189595
+            }
+          ]
+        },
+        "param_frustration.hungerAmplify": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.6384925514697328
+            },
+            {
+              "run": "F run",
+              "value": 0.5511992369894563
+            }
+          ],
+          "range": 0.08729331448027655,
+          "min": 0.5511992369894563,
+          "max": 0.6384925514697328,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.6384925514697328
+            },
+            {
+              "run": "F run",
+              "value": 0.5511992369894563
+            }
+          ]
+        },
+        "param_link.formCost": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 1.7954273310416689
+            },
+            {
+              "run": "F run",
+              "value": 0.6961293799737971
+            }
+          ],
+          "range": 1.0992979510678718,
+          "min": 0.6961293799737971,
+          "max": 1.7954273310416689,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 1.7954273310416689
+            },
+            {
+              "run": "F run",
+              "value": 0.6961293799737971
+            }
+          ]
+        },
+        "param_link.maintPerSec": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.011025034115547911
+            },
+            {
+              "run": "F run",
+              "value": 0.015043836437817235
+            }
+          ],
+          "range": 0.004018802322269324,
+          "min": 0.011025034115547911,
+          "max": 0.015043836437817235,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.011025034115547911
+            },
+            {
+              "run": "F run",
+              "value": 0.015043836437817235
+            }
+          ]
+        },
+        "param_link.decayPerSec": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.020523102434943243
+            },
+            {
+              "run": "F run",
+              "value": 0.020340230669234734
+            }
+          ],
+          "range": 0.00018287176570850813,
+          "min": 0.020340230669234734,
+          "max": 0.020523102434943243,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.020523102434943243
+            },
+            {
+              "run": "F run",
+              "value": 0.020340230669234734
+            }
+          ]
+        },
+        "param_link.strengthenPerUse": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.06629050994559872
+            },
+            {
+              "run": "F run",
+              "value": 0.05387343061397731
+            }
+          ],
+          "range": 0.012417079331621408,
+          "min": 0.05387343061397731,
+          "max": 0.06629050994559872,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.06629050994559872
+            },
+            {
+              "run": "F run",
+              "value": 0.05387343061397731
+            }
+          ]
+        },
+        "param_link.guidanceGain": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.6586608987027885
+            },
+            {
+              "run": "F run",
+              "value": 0.5348634998226939
+            }
+          ],
+          "range": 0.12379739888009467,
+          "min": 0.5348634998226939,
+          "max": 0.6586608987027885,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.6586608987027885
+            },
+            {
+              "run": "F run",
+              "value": 0.5348634998226939
+            }
+          ]
+        }
+      }
+    },
+    "optimized-config": {
+      "available": true,
+      "runs": 2,
+      "metrics": {
+        "generation": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 5
+            },
+            {
+              "run": "F run",
+              "value": 5
+            }
+          ],
+          "range": 0,
+          "min": 5,
+          "max": 5,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 5
+            },
+            {
+              "run": "F run",
+              "value": 5
+            }
+          ]
+        },
+        "best_fitness": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0
+            },
+            {
+              "run": "F run",
+              "value": 0
+            }
+          ],
+          "range": 0,
+          "min": 0,
+          "max": 0,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0
+            },
+            {
+              "run": "F run",
+              "value": 0
+            }
+          ]
+        },
+        "convergence": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0.825
+            },
+            {
+              "run": "F run",
+              "value": 0.866
+            }
+          ],
+          "range": 0.041000000000000036,
+          "min": 0.825,
+          "max": 0.866,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0.825
+            },
+            {
+              "run": "F run",
+              "value": 0.866
+            }
+          ]
+        },
+        "objective": {
+          "values": [
+            {
+              "run": "C run",
+              "value": "C"
+            },
+            {
+              "run": "F run",
+              "value": "F"
+            }
+          ],
+          "range": null,
+          "min": null,
+          "max": null,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": "C"
+            },
+            {
+              "run": "F run",
+              "value": "F"
+            }
+          ]
+        }
+      }
+    },
+    "essence-state": {
+      "available": true,
+      "runs": 2,
+      "metrics": {
+        "total_births": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 8
+            },
+            {
+              "run": "F run",
+              "value": 6
+            }
+          ],
+          "range": 2,
+          "min": 6,
+          "max": 8,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 8
+            },
+            {
+              "run": "F run",
+              "value": 6
+            }
+          ]
+        },
+        "next_agent_id": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 12
+            },
+            {
+              "run": "F run",
+              "value": 10
+            }
+          ],
+          "range": 2,
+          "min": 10,
+          "max": 12,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 12
+            },
+            {
+              "run": "F run",
+              "value": 10
+            }
+          ]
+        },
+        "resources_collected": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 535
+            },
+            {
+              "run": "F run",
+              "value": 402
+            }
+          ],
+          "range": 133,
+          "min": 402,
+          "max": 535,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 535
+            },
+            {
+              "run": "F run",
+              "value": 402
+            }
+          ]
+        },
+        "carrying_capacity": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 58
+            },
+            {
+              "run": "F run",
+              "value": 60
+            }
+          ],
+          "range": 2,
+          "min": 58,
+          "max": 60,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 58
+            },
+            {
+              "run": "F run",
+              "value": 60
+            }
+          ]
+        },
+        "resource_pressure": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0
+            },
+            {
+              "run": "F run",
+              "value": 0
+            }
+          ],
+          "range": 0,
+          "min": 0,
+          "max": 0,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0
+            },
+            {
+              "run": "F run",
+              "value": 0
+            }
+          ]
+        },
+        "total_agents_ever_created": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 11
+            },
+            {
+              "run": "F run",
+              "value": 9
+            }
+          ],
+          "range": 2,
+          "min": 9,
+          "max": 11,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 11
+            },
+            {
+              "run": "F run",
+              "value": 9
+            }
+          ]
+        },
+        "deaths": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 2
+            },
+            {
+              "run": "F run",
+              "value": 3
+            }
+          ],
+          "range": 1,
+          "min": 2,
+          "max": 3,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 2
+            },
+            {
+              "run": "F run",
+              "value": 3
+            }
+          ]
+        },
+        "agent_count": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 9
+            },
+            {
+              "run": "F run",
+              "value": 6
+            }
+          ],
+          "range": 3,
+          "min": 6,
+          "max": 9,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 9
+            },
+            {
+              "run": "F run",
+              "value": 6
+            }
+          ]
+        },
+        "total_agents_ever": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 9
+            },
+            {
+              "run": "F run",
+              "value": 6
+            }
+          ],
+          "range": 3,
+          "min": 6,
+          "max": 9,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 9
+            },
+            {
+              "run": "F run",
+              "value": 6
+            }
+          ]
+        },
+        "max_generation": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 2
+            },
+            {
+              "run": "F run",
+              "value": 2
+            }
+          ],
+          "range": 0,
+          "min": 2,
+          "max": 2,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 2
+            },
+            {
+              "run": "F run",
+              "value": 2
+            }
+          ]
+        },
+        "avg_chi": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 62.17981279107981
+            },
+            {
+              "run": "F run",
+              "value": 78.97314213724731
+            }
+          ],
+          "range": 16.793329346167496,
+          "min": 62.17981279107981,
+          "max": 78.97314213724731,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 62.17981279107981
+            },
+            {
+              "run": "F run",
+              "value": 78.97314213724731
+            }
+          ]
+        },
+        "min_chi": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 12.709328508916705
+            },
+            {
+              "run": "F run",
+              "value": 29.947458108490093
+            }
+          ],
+          "range": 17.238129599573387,
+          "min": 12.709328508916705,
+          "max": 29.947458108490093,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 12.709328508916705
+            },
+            {
+              "run": "F run",
+              "value": 29.947458108490093
+            }
+          ]
+        },
+        "max_chi": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 93.3815828049594
+            },
+            {
+              "run": "F run",
+              "value": 95.6138562755837
+            }
+          ],
+          "range": 2.232273470624307,
+          "min": 93.3815828049594,
+          "max": 95.6138562755837,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 93.3815828049594
+            },
+            {
+              "run": "F run",
+              "value": 95.6138562755837
+            }
+          ]
+        },
+        "chi_range": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 80.6722542960427
+            },
+            {
+              "run": "F run",
+              "value": 65.6663981670936
+            }
+          ],
+          "range": 15.005856128949091,
+          "min": 65.6663981670936,
+          "max": 80.6722542960427,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 80.6722542960427
+            },
+            {
+              "run": "F run",
+              "value": 65.6663981670936
+            }
+          ]
+        },
+        "total_lineages": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 3
+            },
+            {
+              "run": "F run",
+              "value": 2
+            }
+          ],
+          "range": 1,
+          "min": 2,
+          "max": 3,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 3
+            },
+            {
+              "run": "F run",
+              "value": 2
+            }
+          ]
+        },
+        "avg_lineage_length": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 2
+            },
+            {
+              "run": "F run",
+              "value": 2.5
+            }
+          ],
+          "range": 0.5,
+          "min": 2,
+          "max": 2.5,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 2
+            },
+            {
+              "run": "F run",
+              "value": 2.5
+            }
+          ]
+        },
+        "max_lineage_depth": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 3
+            },
+            {
+              "run": "F run",
+              "value": 3
+            }
+          ],
+          "range": 0,
+          "min": 3,
+          "max": 3,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 3
+            },
+            {
+              "run": "F run",
+              "value": 3
+            }
+          ]
+        },
+        "orphan_agents": {
+          "values": [
+            {
+              "run": "C run",
+              "value": 0
+            },
+            {
+              "run": "F run",
+              "value": 0
+            }
+          ],
+          "range": 0,
+          "min": 0,
+          "max": 0,
+          "sortedValues": [
+            {
+              "run": "C run",
+              "value": 0
+            },
+            {
+              "run": "F run",
+              "value": 0
+            }
+          ]
+        }
+      }
+    }
+  }
+}
