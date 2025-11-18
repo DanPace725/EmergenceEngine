@@ -7,7 +7,11 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "analyze:dashboard": "node analysis/dashboard-generator.js",
+    "analyze:dashboard:enhanced": "node analysis/enhanced-dashboard-generator.js",
+    "analyze:dashboard:serve": "npm run analyze:dashboard && vite --config analysis/vite.config.js --port 3001",
+    "dashboard": "npm run analyze:dashboard:enhanced"
   },
   "dependencies": {
     "pixi.js": "^7.4.3"

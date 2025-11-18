@@ -1,6 +1,6 @@
 {
   "runFolder": "C run",
-  "analysisTimestamp": "2025-11-16T06:12:35.968Z",
+  "analysisTimestamp": "2025-11-16T05:39:52.185Z",
   "filesAnalyzed": 4,
   "summaries": [
     {
@@ -84,9 +84,7 @@
     },
     {
       "file": "essence-state-2025-11-16T05-30-27.json",
-      "type": "essence-state",
       "summary": {
-        "type": "essence-state",
         "metadata": {
           "version": 1,
           "exportedAt": "2025-11-16T05:30:27.101Z"

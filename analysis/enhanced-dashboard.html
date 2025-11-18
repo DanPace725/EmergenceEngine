@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Analysis Dashboard</title>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  
+  <style>
+    
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #1a1a2e;
+        color: #e6f3ec;
+        padding: 0;
+        min-height: 100vh;
+      }
+      
+      /* Navigation Bar */
+      .nav-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+        padding: 15px 30px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(8px);
+      }
+      
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      
+      .nav-button {
+        background: rgba(0, 255, 136, 0.15);
+        color: #00ff88;
+        border: 1px solid rgba(0, 255, 136, 0.4);
+        border-radius: 6px;
+        padding: 10px 18px;
+        font-family: ui-mono, monospace;
+        font-size: 13px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+      }
+      
+      .nav-button:hover {
+        background: rgba(0, 255, 136, 0.25);
+        border-color: rgba(0, 255, 136, 0.6);
+        transform: translateY(-1px);
+      }
+      
+      .nav-title {
+        color: #00ff88;
+        font-family: ui-mono, monospace;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      
+      .content-wrapper {
+        margin-top: 80px;
+        padding: 30px;
+        max-width: 1600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      /* Tabs */
+      .tabs {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid rgba(0, 255, 136, 0.2);
+      }
+      
+      .tab {
+        background: transparent;
+        color: #888;
+        border: none;
+        padding: 15px 25px;
+        font-family: ui-mono, monospace;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-bottom: 3px solid transparent;
+      }
+      
+      .tab:hover {
+        color: #00ff88;
+        background: rgba(0, 255, 136, 0.05);
+      }
+      
+      .tab.active {
+        color: #00ff88;
+        border-bottom-color: #00ff88;
+        background: rgba(0, 255, 136, 0.1);
+      }
+      
+      .tab-content {
+        display: none;
+      }
+      
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      /* Summary Cards */
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .stat-card {
+        background: #16213e;
+        border: 1px solid rgba(0, 255, 136, 0.2);
+        border-radius: 8px;
+        padding: 20px;
+        transition: all 0.3s;
+      }
+      
+      .stat-card:hover {
+        border-color: rgba(0, 255, 136, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 255, 136, 0.1);
+      }
+      
+      .stat-label {
+        color: #888;
+        font-size: 13px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .stat-value {
+        color: #00ff88;
+        font-size: 32px;
+        font-weight: bold;
+        font-family: ui-mono, monospace;
+      }
+      
+      .stat-trend {
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      
+      .trend-up { color: #00ff88; }
+      .trend-down { color: #ff5555; }
+      .trend-neutral { color: #ffaa00; }
+      
+      /* Charts */
+      .chart-container {
+        background: #16213e;
+        border: 1px solid rgba(0, 255, 136, 0.2);
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 30px;
+      }
+      
+      .chart-title {
+        color: #00ccff;
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-family: ui-mono, monospace;
+      }
+      
+      /* Tables */
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #16213e;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .comparison-table th {
+        background: #0f3460;
+        color: #00ff88;
+        padding: 15px;
+        text-align: left;
+        font-weight: bold;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .comparison-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        color: #e6f3ec;
+      }
+      
+      .comparison-table tr:hover {
+        background: rgba(0, 255, 136, 0.05);
+      }
+      
+      /* Sections */
+      .section {
+        margin-bottom: 40px;
+      }
+      
+      .section-title {
+        color: #00ccff;
+        font-size: 24px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid rgba(0, 204, 255, 0.3);
+      }
+      
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #888;
+      }
+      
+      .empty-state-icon {
+        font-size: 64px;
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+      
+      .empty-state-text {
+        font-size: 18px;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .content-wrapper {
+          padding: 20px;
+        }
+        
+        .summary-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .tabs {
+          overflow-x: auto;
+        }
+      }
+    
+  </style>
+</head>
+<body>
+  
+      <div class="nav-bar">
+        <div class="nav-left">
+          <a href="/" class="nav-button">
+            <span>←</span>
+            <span>Back to Simulation</span>
+          </a>
+          <span class="nav-title">📊 Enhanced Analysis Dashboard</span>
+        </div>
+        <div class="nav-right">
+          <span style="color: #888; font-size: 12px;">
+            5 datasets loaded
+          </span>
+        </div>
+      </div>
+    
+  
+  <div class="content-wrapper">
+    
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+        <button class="tab" onclick="showTab('adaptive')">🧠 Adaptive Heuristics</button>
+        <button class="tab" onclick="showTab('baseline')">📈 Baseline Metrics</button>
+        <button class="tab" onclick="showTab('comparison')">🔬 Comparisons</button>
+      </div>
+    
+    
+      <div id="overview-tab" class="tab-content active">
+        
+      <div class="section">
+        <h2 class="section-title">Dashboard Overview</h2>
+        
+        <div class="summary-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Datasets</div>
+            <div class="stat-value">5</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Adaptive Heuristics</div>
+            <div class="stat-value">2</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Baseline Experiments</div>
+            <div class="stat-value">2</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Comparisons</div>
+            <div class="stat-value">1</div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h3 style="color: #00ff88; margin-bottom: 15px;">Loaded Datasets</h3>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td><strong>111520251643</strong></td>
+                  <td>🧠 Adaptive Heuristics</td>
+                  <td>5 snapshots</td>
+                </tr>
+              
+                <tr>
+                  <td><strong>111525</strong></td>
+                  <td>🧠 Adaptive Heuristics</td>
+                  <td>3 snapshots</td>
+                </tr>
+              
+                <tr>
+                  <td><strong>C run</strong></td>
+                  <td>🧪 Experiment Summary</td>
+                  <td>4 files analyzed</td>
+                </tr>
+              
+                <tr>
+                  <td><strong>F run</strong></td>
+                  <td>🧪 Experiment Summary</td>
+                  <td>4 files analyzed</td>
+                </tr>
+              
+                <tr>
+                  <td><strong>Experiment Comparison</strong></td>
+                  <td>🔬 Comparison</td>
+                  <td>2 runs compared</td>
+                </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+      </div>
+      
+      <div id="adaptive-tab" class="tab-content">
+        
+        <div class="section">
+          <h2 class="section-title">111520251643</h2>
+          
+          <div class="summary-grid">
+            
+      <div class="stat-card">
+        <div class="stat-label">Total Snapshots</div>
+        <div class="stat-value">5</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final Reward</div>
+        <div class="stat-value">5.648</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Peak Reward</div>
+        <div class="stat-value">7.471</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Improvement</div>
+        <div class="stat-value">+3.345</div>
+        <div class="stat-trend trend-up">↑</div>
+      </div>
+    
+          </div>
+          
+          
+      <div class="chart-container" style="position: relative; height: 400px; margin: 20px 0;">
+        <h3 class="chart-title">📈 Reward Evolution</h3>
+        <canvas id="adaptive-reward-111520251643"></canvas>
+      </div>
+    
+        </div>
+      
+        <div class="section">
+          <h2 class="section-title">111525</h2>
+          
+          <div class="summary-grid">
+            
+      <div class="stat-card">
+        <div class="stat-label">Total Snapshots</div>
+        <div class="stat-value">3</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final Reward</div>
+        <div class="stat-value">0.077</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Peak Reward</div>
+        <div class="stat-value">4.676</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Improvement</div>
+        <div class="stat-value">-4.599</div>
+        <div class="stat-trend trend-down">↓</div>
+      </div>
+    
+          </div>
+          
+          
+      <div class="chart-container" style="position: relative; height: 400px; margin: 20px 0;">
+        <h3 class="chart-title">📈 Reward Evolution</h3>
+        <canvas id="adaptive-reward-111525"></canvas>
+      </div>
+    
+        </div>
+      
+      </div>
+      
+      <div id="baseline-tab" class="tab-content">
+        
+        <div class="section">
+          <h2 class="section-title">C run</h2>
+          
+          <div class="summary-grid">
+            
+      <div class="stat-card">
+        <div class="stat-label">Snapshots</div>
+        <div class="stat-value">40</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Duration</div>
+        <div class="stat-value">1170 ticks</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final Mean Chi</div>
+        <div class="stat-value">85.31</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Avg Mean Chi</div>
+        <div class="stat-value">62.82</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final Coverage</div>
+        <div class="stat-value">0.164</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Avg Coverage</div>
+        <div class="stat-value">0.100</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final ROI</div>
+        <div class="stat-value">16.16</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Avg ROI</div>
+        <div class="stat-value">22.63</div>
+        
+      </div>
+    
+          </div>
+          
+          
+      <div class="chart-container" style="position: relative; height: 400px; margin: 20px 0;">
+        <h3 class="chart-title">📊 Metrics Comparison: Final vs Average</h3>
+        <canvas id="baseline-chart-C-run"></canvas>
+      </div>
+    
+          
+          <div style="margin-top: 30px;">
+            <h3 style="color: #00ccff; margin-bottom: 15px;">Detailed Metrics</h3>
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Final Value</th>
+                  <th>Average Value</th>
+                  <th>Difference</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+        <tr>
+          <td><strong>Mean Chi</strong></td>
+          <td>85.310</td>
+          <td>62.820</td>
+          <td class="trend-up">+22.490</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Std Chi</strong></td>
+          <td>11.840</td>
+          <td>6.350</td>
+          <td class="trend-up">+5.490</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Coverage</strong></td>
+          <td>0.164</td>
+          <td>0.100</td>
+          <td class="trend-up">+0.064</td>
+        </tr>
+      
+        <tr>
+          <td><strong>ROI</strong></td>
+          <td>16.160</td>
+          <td>22.630</td>
+          <td class="trend-down">-6.470</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Frontier Rate</strong></td>
+          <td>3.400</td>
+          <td>3.440</td>
+          <td class="trend-down">-0.040</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Heading Entropy</strong></td>
+          <td>0.612</td>
+          <td>0.590</td>
+          <td class="trend-up">+0.022</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Alive Ratio</strong></td>
+          <td>1.000</td>
+          <td>1.000</td>
+          <td class="trend-neutral">+0.000</td>
+        </tr>
+      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+        <div class="section">
+          <h2 class="section-title">F run</h2>
+          
+          <div class="summary-grid">
+            
+      <div class="stat-card">
+        <div class="stat-label">Snapshots</div>
+        <div class="stat-value">40</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Duration</div>
+        <div class="stat-value">1170 ticks</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final Mean Chi</div>
+        <div class="stat-value">155.36</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Avg Mean Chi</div>
+        <div class="stat-value">140.91</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final Coverage</div>
+        <div class="stat-value">0.177</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Avg Coverage</div>
+        <div class="stat-value">0.120</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Final ROI</div>
+        <div class="stat-value">12.00</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Avg ROI</div>
+        <div class="stat-value">17.65</div>
+        
+      </div>
+    
+          </div>
+          
+          
+      <div class="chart-container" style="position: relative; height: 400px; margin: 20px 0;">
+        <h3 class="chart-title">📊 Metrics Comparison: Final vs Average</h3>
+        <canvas id="baseline-chart-F-run"></canvas>
+      </div>
+    
+          
+          <div style="margin-top: 30px;">
+            <h3 style="color: #00ccff; margin-bottom: 15px;">Detailed Metrics</h3>
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>Final Value</th>
+                  <th>Average Value</th>
+                  <th>Difference</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+        <tr>
+          <td><strong>Mean Chi</strong></td>
+          <td>155.360</td>
+          <td>140.910</td>
+          <td class="trend-up">+14.450</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Std Chi</strong></td>
+          <td>46.170</td>
+          <td>35.060</td>
+          <td class="trend-up">+11.110</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Coverage</strong></td>
+          <td>0.177</td>
+          <td>0.120</td>
+          <td class="trend-up">+0.057</td>
+        </tr>
+      
+        <tr>
+          <td><strong>ROI</strong></td>
+          <td>12.000</td>
+          <td>17.650</td>
+          <td class="trend-down">-5.650</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Frontier Rate</strong></td>
+          <td>3.430</td>
+          <td>3.210</td>
+          <td class="trend-up">+0.220</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Heading Entropy</strong></td>
+          <td>0.473</td>
+          <td>0.520</td>
+          <td class="trend-down">-0.047</td>
+        </tr>
+      
+        <tr>
+          <td><strong>Alive Ratio</strong></td>
+          <td>1.000</td>
+          <td>1.000</td>
+          <td class="trend-neutral">+0.000</td>
+        </tr>
+      
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+      </div>
+      
+      <div id="comparison-tab" class="tab-content">
+        
+        <div class="section">
+          <h2 class="section-title">Experiment Comparison</h2>
+          
+          <div class="summary-grid">
+            
+      <div class="stat-card">
+        <div class="stat-label">Runs Compared</div>
+        <div class="stat-value">2</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Run Names</div>
+        <div class="stat-value">C run vs F run</div>
+        
+      </div>
+    
+            
+      <div class="stat-card">
+        <div class="stat-label">Metric Types</div>
+        <div class="stat-value">4</div>
+        
+      </div>
+    
+          </div>
+          
+          
+        <div style="margin-top: 40px;">
+          <h3 style="color: #00ccff; margin-bottom: 20px;">📈 Baseline Performance Metrics</h3>
+      
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>C run</th><th>F run</th>
+                <th>Difference</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+        
+            <tr>
+              <td><strong>Avg Mean Chi</strong></td>
+              <td class="">62.820</td><td class="trend-up">140.910 ✓</td>
+              <td>78.090</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Final Mean Chi</strong></td>
+              <td class="">85.310</td><td class="trend-up">155.360 ✓</td>
+              <td>70.050</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Avg Find Rate</strong></td>
+              <td class="trend-up">45.000 ✓</td><td class="">41.670</td>
+              <td>3.330</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Final Heading Entropy</strong></td>
+              <td class="trend-up">0.612 ✓</td><td class="">0.473</td>
+              <td>0.139</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Final Frontier Rate</strong></td>
+              <td class="">3.400</td><td class="trend-up">3.430 ✓</td>
+              <td>0.030</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Avg Coverage</strong></td>
+              <td class="">0.100</td><td class="trend-up">0.120 ✓</td>
+              <td>0.020</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Final Coverage</strong></td>
+              <td class="">0.164</td><td class="trend-up">0.177 ✓</td>
+              <td>0.013</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top: 40px;">
+          <h3 style="color: #00ccff; margin-bottom: 20px;">⚙️ Optimized Parameters</h3>
+      
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>C run</th><th>F run</th>
+                <th>Difference</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+        
+            <tr>
+              <td><strong>Sensing.Radius</strong></td>
+              <td class="trend-up">103.121 ✓</td><td class="">80.905</td>
+              <td>22.216</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>MoveSpeedPxPerSec</strong></td>
+              <td class="">129.837</td><td class="trend-up">148.184 ✓</td>
+              <td>18.347</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Sensing.RadiusRangeFactor</strong></td>
+              <td class="">1.553</td><td class="trend-up">3.000 ✓</td>
+              <td>1.447</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Link.FormCost</strong></td>
+              <td class="trend-up">1.795 ✓</td><td class="">0.696</td>
+              <td>1.099</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Frustration.NoiseGain</strong></td>
+              <td class="trend-up">1.827 ✓</td><td class="">1.300</td>
+              <td>0.527</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Link.GuidanceGain</strong></td>
+              <td class="trend-up">0.659 ✓</td><td class="">0.535</td>
+              <td>0.124</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Frustration.HungerAmplify</strong></td>
+              <td class="trend-up">0.638 ✓</td><td class="">0.551</td>
+              <td>0.087</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Trail.EmitPerSecond</strong></td>
+              <td class="trend-up">1.001 ✓</td><td class="">0.928</td>
+              <td>0.074</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>MoveCostPerSecond</strong></td>
+              <td class="">0.444</td><td class="trend-up">0.508 ✓</td>
+              <td>0.064</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Trail.DecayPerSecond</strong></td>
+              <td class="">0.050</td><td class="trend-up">0.108 ✓</td>
+              <td>0.058</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top: 40px;">
+          <h3 style="color: #00ccff; margin-bottom: 20px;">🎯 Optimization Results</h3>
+      
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>C run</th><th>F run</th>
+                <th>Difference</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+        
+            <tr>
+              <td><strong>Convergence</strong></td>
+              <td class="">0.825</td><td class="trend-up">0.866 ✓</td>
+              <td>0.041</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Generation</strong></td>
+              <td class="trend-up">5.000 ✓</td><td class="">5.000</td>
+              <td>0.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Best Fitness</strong></td>
+              <td class="trend-up">0.000 ✓</td><td class="">0.000</td>
+              <td>0.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top: 40px;">
+          <h3 style="color: #00ccff; margin-bottom: 20px;">🌟 Final Simulation State</h3>
+      
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>C run</th><th>F run</th>
+                <th>Difference</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+        
+            <tr>
+              <td><strong>Resources Collected</strong></td>
+              <td class="trend-up">535.000 ✓</td><td class="">402.000</td>
+              <td>133.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Min Chi</strong></td>
+              <td class="">12.709</td><td class="trend-up">29.947 ✓</td>
+              <td>17.238</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Avg Chi</strong></td>
+              <td class="">62.180</td><td class="trend-up">78.973 ✓</td>
+              <td>16.793</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Chi Range</strong></td>
+              <td class="trend-up">80.672 ✓</td><td class="">65.666</td>
+              <td>15.006</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Agent Count</strong></td>
+              <td class="trend-up">9.000 ✓</td><td class="">6.000</td>
+              <td>3.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Total Agents Ever</strong></td>
+              <td class="trend-up">9.000 ✓</td><td class="">6.000</td>
+              <td>3.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Max Chi</strong></td>
+              <td class="">93.382</td><td class="trend-up">95.614 ✓</td>
+              <td>2.232</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Total Births</strong></td>
+              <td class="trend-up">8.000 ✓</td><td class="">6.000</td>
+              <td>2.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Next Agent Id</strong></td>
+              <td class="trend-up">12.000 ✓</td><td class="">10.000</td>
+              <td>2.000</td>
+              <td style="color: #00ff88;">C run</td>
+            </tr>
+          
+            <tr>
+              <td><strong>Carrying Capacity</strong></td>
+              <td class="">58.000</td><td class="trend-up">60.000 ✓</td>
+              <td>2.000</td>
+              <td style="color: #00ff88;">F run</td>
+            </tr>
+          
+            </tbody>
+          </table>
+        </div>
+        </div>
+      
+      </div>
+    
+  </div>
+
+  <script>
+    
+      // Tab switching
+      function showTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+          tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('active');
+        });
+        
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.add('active');
+        event.target.classList.add('active');
+      }
+      
+      // Initialize charts
+      window.addEventListener('DOMContentLoaded', function() {
+    
+      (function() {
+        const ctx = document.getElementById('adaptive-reward-111520251643');
+        if (ctx) {
+          new Chart(ctx, {
+  "type": "line",
+  "data": {
+    "labels": [
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5"
+    ],
+    "datasets": [
+      {
+        "label": "Baseline Reward",
+        "data": [
+          2.303621353020378,
+          4.545480875375562,
+          5.15227483934855,
+          7.470805963701631,
+          5.6481717383588785
+        ],
+        "borderColor": "#00ff88",
+        "backgroundColor": "rgba(0, 255, 136, 0.1)",
+        "tension": 0.4
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "interaction": {
+      "mode": "index",
+      "intersect": false
+    },
+    "plugins": {
+      "legend": {
+        "display": true,
+        "position": "top",
+        "labels": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 12
+          }
+        }
+      },
+      "tooltip": {
+        "backgroundColor": "rgba(0, 0, 0, 0.9)",
+        "titleColor": "#00ff88",
+        "bodyColor": "#e6f3ec",
+        "borderColor": "#00ff88",
+        "borderWidth": 1,
+        "padding": 12,
+        "displayColors": true,
+        "callbacks": {}
+      },
+      "zoom": {
+        "pan": {
+          "enabled": true,
+          "mode": "x"
+        },
+        "zoom": {
+          "wheel": {
+            "enabled": true
+          },
+          "pinch": {
+            "enabled": true
+          },
+          "mode": "x"
+        }
+      }
+    },
+    "scales": {
+      "x": {
+        "grid": {
+          "color": "rgba(0, 255, 136, 0.1)",
+          "drawBorder": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      },
+      "y": {
+        "grid": {
+          "color": "rgba(0, 255, 136, 0.1)",
+          "drawBorder": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      }
+    }
+  }
+});
+        }
+      })();
+    
+      (function() {
+        const ctx = document.getElementById('adaptive-reward-111525');
+        if (ctx) {
+          new Chart(ctx, {
+  "type": "line",
+  "data": {
+    "labels": [
+      "S1",
+      "S2",
+      "S3"
+    ],
+    "datasets": [
+      {
+        "label": "Baseline Reward",
+        "data": [
+          4.6757587206108475,
+          4.5965526871732285,
+          0.07712604866571977
+        ],
+        "borderColor": "#00ff88",
+        "backgroundColor": "rgba(0, 255, 136, 0.1)",
+        "tension": 0.4
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "interaction": {
+      "mode": "index",
+      "intersect": false
+    },
+    "plugins": {
+      "legend": {
+        "display": true,
+        "position": "top",
+        "labels": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 12
+          }
+        }
+      },
+      "tooltip": {
+        "backgroundColor": "rgba(0, 0, 0, 0.9)",
+        "titleColor": "#00ff88",
+        "bodyColor": "#e6f3ec",
+        "borderColor": "#00ff88",
+        "borderWidth": 1,
+        "padding": 12,
+        "displayColors": true,
+        "callbacks": {}
+      },
+      "zoom": {
+        "pan": {
+          "enabled": true,
+          "mode": "x"
+        },
+        "zoom": {
+          "wheel": {
+            "enabled": true
+          },
+          "pinch": {
+            "enabled": true
+          },
+          "mode": "x"
+        }
+      }
+    },
+    "scales": {
+      "x": {
+        "grid": {
+          "color": "rgba(0, 255, 136, 0.1)",
+          "drawBorder": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      },
+      "y": {
+        "grid": {
+          "color": "rgba(0, 255, 136, 0.1)",
+          "drawBorder": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      }
+    }
+  }
+});
+        }
+      })();
+    
+      (function() {
+        const ctx = document.getElementById('baseline-chart-C-run');
+        if (ctx) {
+          new Chart(ctx, {
+  "type": "bar",
+  "data": {
+    "labels": [
+      "MEAN CHI",
+      "COVERAGE",
+      "ROI",
+      "FRONTIER RATE",
+      "HEADING ENTROPY"
+    ],
+    "datasets": [
+      {
+        "label": "Final State",
+        "data": [
+          85.31,
+          0.164,
+          16.16,
+          3.4,
+          0.612
+        ],
+        "backgroundColor": "rgba(0, 255, 136, 0.6)",
+        "borderColor": "#00ff88",
+        "borderWidth": 2
+      },
+      {
+        "label": "Average",
+        "data": [
+          62.82,
+          0.1,
+          22.63,
+          3.44,
+          0.59
+        ],
+        "backgroundColor": "rgba(0, 204, 255, 0.6)",
+        "borderColor": "#00ccff",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "legend": {
+        "display": true,
+        "position": "top",
+        "labels": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 12
+          }
+        }
+      },
+      "tooltip": {
+        "backgroundColor": "rgba(0, 0, 0, 0.9)",
+        "titleColor": "#00ff88",
+        "bodyColor": "#e6f3ec",
+        "borderColor": "#00ff88",
+        "borderWidth": 1,
+        "padding": 12
+      }
+    },
+    "scales": {
+      "x": {
+        "grid": {
+          "display": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      },
+      "y": {
+        "grid": {
+          "color": "rgba(0, 255, 136, 0.1)",
+          "drawBorder": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      }
+    }
+  }
+});
+        }
+      })();
+    
+      (function() {
+        const ctx = document.getElementById('baseline-chart-F-run');
+        if (ctx) {
+          new Chart(ctx, {
+  "type": "bar",
+  "data": {
+    "labels": [
+      "MEAN CHI",
+      "COVERAGE",
+      "ROI",
+      "FRONTIER RATE",
+      "HEADING ENTROPY"
+    ],
+    "datasets": [
+      {
+        "label": "Final State",
+        "data": [
+          155.36,
+          0.177,
+          12,
+          3.43,
+          0.473
+        ],
+        "backgroundColor": "rgba(0, 255, 136, 0.6)",
+        "borderColor": "#00ff88",
+        "borderWidth": 2
+      },
+      {
+        "label": "Average",
+        "data": [
+          140.91,
+          0.12,
+          17.65,
+          3.21,
+          0.52
+        ],
+        "backgroundColor": "rgba(0, 204, 255, 0.6)",
+        "borderColor": "#00ccff",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "options": {
+    "responsive": true,
+    "maintainAspectRatio": false,
+    "plugins": {
+      "legend": {
+        "display": true,
+        "position": "top",
+        "labels": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 12
+          }
+        }
+      },
+      "tooltip": {
+        "backgroundColor": "rgba(0, 0, 0, 0.9)",
+        "titleColor": "#00ff88",
+        "bodyColor": "#e6f3ec",
+        "borderColor": "#00ff88",
+        "borderWidth": 1,
+        "padding": 12
+      }
+    },
+    "scales": {
+      "x": {
+        "grid": {
+          "display": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      },
+      "y": {
+        "grid": {
+          "color": "rgba(0, 255, 136, 0.1)",
+          "drawBorder": false
+        },
+        "ticks": {
+          "color": "#e6f3ec",
+          "font": {
+            "family": "ui-mono, monospace",
+            "size": 11
+          }
+        }
+      }
+    }
+  }
+});
+        }
+      })();
+    
+      });
+    
+  </script>
+</body>
+</html>

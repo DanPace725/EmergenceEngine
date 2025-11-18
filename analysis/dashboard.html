@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adaptive Heuristics Analysis Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    /* Navigation bar */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.95);
+      border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+      padding: 10px 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      backdrop-filter: blur(4px);
+    }
+    .nav-button {
+      background: rgba(0, 255, 136, 0.15);
+      color: #00ff88;
+      border: 1px solid rgba(0, 255, 136, 0.4);
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-family: ui-mono, monospace;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .nav-button:hover {
+      background: rgba(0, 255, 136, 0.25);
+      border-color: rgba(0, 255, 136, 0.6);
+    }
+    .nav-title {
+      color: #00ff88;
+      font-family: ui-mono, monospace;
+      font-size: 14px;
+      margin-left: auto;
+      opacity: 0.7;
+    }
+    .content-wrapper {
+      margin-top: 60px;
+    }
+    h1 { color: #00ffaa; text-align: center; }
+    h2 { color: #00ccff; border-bottom: 2px solid #00ccff; padding-bottom: 10px; }
+    h3 { color: #00ffaa; margin-top: 30px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #16213e;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    th {
+      background: #0f3460;
+      padding: 12px;
+      text-align: left;
+      color: #00ffaa;
+      font-weight: bold;
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #2a2a4e;
+    }
+    tr:hover { background: #1f2b4e; }
+    .good { color: #00ff88; font-weight: bold; }
+    .warn { color: #ffaa00; font-weight: bold; }
+    .bad { color: #ff5555; font-weight: bold; }
+    .metric { font-size: 0.9em; color: #aaa; }
+    .chart-container {
+      background: #16213e;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      position: relative;
+    }
+    .stat-box {
+      display: inline-block;
+      background: #16213e;
+      padding: 15px 25px;
+      margin: 10px;
+      border-radius: 8px;
+      border: 2px solid #0f3460;
+      min-width: 150px;
+    }
+    .stat-label { color: #888; font-size: 0.9em; }
+    .stat-value { color: #00ffaa; font-size: 1.5em; font-weight: bold; }
+
+    /* Timeline chart styles */
+    .timeline-chart {
+      position: relative;
+      height: 200px;
+      background: #0f3460;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .timeline-point {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #00ffaa;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .timeline-point:hover .point-label {
+      display: block;
+    }
+    .point-label {
+      display: none;
+      position: absolute;
+      background: #000;
+      color: #fff;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 0.8em;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    /* Parameter chart styles */
+    .param-chart {
+      position: relative;
+      height: 150px;
+      background: #0f3460;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .param-line {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      border-top: 2px solid;
+    }
+    .param-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .param-point:hover .point-tooltip {
+      display: block;
+    }
+    .point-tooltip {
+      display: none;
+      position: absolute;
+      background: #000;
+      color: #fff;
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-size: 0.7em;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9em;
+    }
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <a href="/" class="nav-button">
+      <span>←</span>
+      <span>Back to Simulation</span>
+    </a>
+    <span class="nav-title">Analysis Dashboard</span>
+  </div>
+  
+  <div class="content-wrapper">
+    <h1>🧠 Adaptive Heuristics Analysis Dashboard</h1>
+    <p style="text-align: center; color: #888;">Generated: 11/16/2025, 7:31:47 AM</p>
+
+    <h2>📊 Summary Statistics</h2>
+  <div style="text-align: center;">
+    <div class="stat-box">
+      <div class="stat-label">Total Runs</div>
+      <div class="stat-value">2</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Avg Final Reward</div>
+      <div class="stat-value">2.86</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Best Final Reward</div>
+      <div class="stat-value">5.65</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Avg Peak Reward</div>
+      <div class="stat-value">6.07</div>
+    </div>
+  </div>
+
+  
+      <h2>📊 Run Comparison</h2>
+      <table>
+        <tr>
+          <th>Run ID</th>
+          <th>Snapshots</th>
+          <th>Start Reward</th>
+          <th>Final Reward</th>
+          <th>Peak Reward</th>
+          <th>Improvement</th>
+          <th>Duration</th>
+        </tr>
+        <tr>
+          <td>111520251643</td>
+          <td>5</td>
+          <td>2.30</td>
+          <td class="good">5.65</td>
+          <td>7.47</td>
+          <td class="good">+3.34</td>
+          <td>16 min</td>
+        </tr>
+        <tr>
+          <td>111525</td>
+          <td>3</td>
+          <td>4.68</td>
+          <td class="bad">0.08</td>
+          <td>4.68</td>
+          <td class="bad">-4.60</td>
+          <td>13 min</td>
+        </tr></table>
+
+  <h2>📈 Performance Timelines</h2>
+        <div class="chart-container">
+          <h3>Run 111520251643</h3>
+          <div class="timeline-chart">
+            
+              <div class="timeline-point" style="left: 0%; top: 100%">
+                <div class="point-label">T1: 2.30</div>
+              </div>
+            
+              <div class="timeline-point" style="left: 25%; top: 56.61351990945003%">
+                <div class="point-label">T2: 4.55</div>
+              </div>
+            
+              <div class="timeline-point" style="left: 50%; top: 44.870297832215456%">
+                <div class="point-label">T3: 5.15</div>
+              </div>
+            
+              <div class="timeline-point" style="left: 75%; top: 0%">
+                <div class="point-label">T4: 7.47</div>
+              </div>
+            
+              <div class="timeline-point" style="left: 100%; top: 35.27325541214701%">
+                <div class="point-label">T5: 5.65</div>
+              </div>
+            
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background: #00ffaa;"></span>
+              Baseline Reward: 5.65
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #00ccff;"></span>
+              Peak: 7.47
+            </div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <h3>Run 111525</h3>
+          <div class="timeline-chart">
+            
+              <div class="timeline-point" style="left: 0%; top: 0%">
+                <div class="point-label">T1: 4.68</div>
+              </div>
+            
+              <div class="timeline-point" style="left: 50%; top: 1.7223822620326104%">
+                <div class="point-label">T2: 4.60</div>
+              </div>
+            
+              <div class="timeline-point" style="left: 100%; top: 100%">
+                <div class="point-label">T3: 0.08</div>
+              </div>
+            
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background: #00ffaa;"></span>
+              Baseline Reward: 0.08
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background: #00ccff;"></span>
+              Peak: 4.68
+            </div>
+          </div>
+        </div>
+
+  <h2>🔧 Parameter Evolution</h2>
+        <div class="chart-container">
+          <h3>resourceAttractionStrength</h3>
+          <div class="param-chart">
+          <div class="param-line" style="border-color: #00ffaa;">
+            
+              <div class="param-point" style="left: 0%; bottom: 28.769642986602243%">
+                <div class="point-tooltip">resourceAttractionStrength: 1.454</div>
+              </div>
+            
+              <div class="param-point" style="left: 25%; bottom: 10%">
+                <div class="point-tooltip">resourceAttractionStrength: 1.152</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 58.52236418297514%">
+                <div class="point-tooltip">resourceAttractionStrength: 1.933</div>
+              </div>
+            
+              <div class="param-point" style="left: 75%; bottom: 74.58881262208524%">
+                <div class="point-tooltip">resourceAttractionStrength: 2.192</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 90%">
+                <div class="point-tooltip">resourceAttractionStrength: 2.440</div>
+              </div>
+            
+          </div>
+          <div class="param-line" style="border-color: #00ccff;">
+            
+              <div class="param-point" style="left: 0%; bottom: 10%">
+                <div class="point-tooltip">resourceAttractionStrength: 1.115</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 90%">
+                <div class="point-tooltip">resourceAttractionStrength: 1.506</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 73.7961433533606%">
+                <div class="point-tooltip">resourceAttractionStrength: 1.427</div>
+              </div>
+            
+          </div>
+          <div class="chart-legend">
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ffaa;"></span>
+                Run 111520251643
+              </div>
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ccff;"></span>
+                Run 111525
+              </div>
+            
+          </div>
+        </div>
+        </div>
+        <div class="chart-container">
+          <h3>moveSpeedPxPerSec</h3>
+          <div class="param-chart">
+          <div class="param-line" style="border-color: #00ffaa;">
+            
+              <div class="param-point" style="left: 0%; bottom: 10%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.298</div>
+              </div>
+            
+              <div class="param-point" style="left: 25%; bottom: 43.91905279171053%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.571</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 45.67533680151355%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.585</div>
+              </div>
+            
+              <div class="param-point" style="left: 75%; bottom: 41.62928351035943%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.552</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 90%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.942</div>
+              </div>
+            
+          </div>
+          <div class="param-line" style="border-color: #00ccff;">
+            
+              <div class="param-point" style="left: 0%; bottom: 10%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.076</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 49.64313345559092%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.177</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 90%">
+                <div class="point-tooltip">moveSpeedPxPerSec: 1.281</div>
+              </div>
+            
+          </div>
+          <div class="chart-legend">
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ffaa;"></span>
+                Run 111520251643
+              </div>
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ccff;"></span>
+                Run 111525
+              </div>
+            
+          </div>
+        </div>
+        </div>
+        <div class="chart-container">
+          <h3>exploreNoiseBase</h3>
+          <div class="param-chart">
+          <div class="param-line" style="border-color: #00ffaa;">
+            
+              <div class="param-point" style="left: 0%; bottom: 79.01305037354967%">
+                <div class="point-tooltip">exploreNoiseBase: 2.996</div>
+              </div>
+            
+              <div class="param-point" style="left: 25%; bottom: 90%">
+                <div class="point-tooltip">exploreNoiseBase: 3.000</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 90%">
+                <div class="point-tooltip">exploreNoiseBase: 3.000</div>
+              </div>
+            
+              <div class="param-point" style="left: 75%; bottom: 10%">
+                <div class="point-tooltip">exploreNoiseBase: 2.969</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 85.54952853230633%">
+                <div class="point-tooltip">exploreNoiseBase: 2.998</div>
+              </div>
+            
+          </div>
+          <div class="param-line" style="border-color: #00ccff;">
+            
+              <div class="param-point" style="left: 0%; bottom: 10%">
+                <div class="point-tooltip">exploreNoiseBase: 2.537</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 89.99952169423266%">
+                <div class="point-tooltip">exploreNoiseBase: 3.000</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 90%">
+                <div class="point-tooltip">exploreNoiseBase: 3.000</div>
+              </div>
+            
+          </div>
+          <div class="chart-legend">
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ffaa;"></span>
+                Run 111520251643
+              </div>
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ccff;"></span>
+                Run 111525
+              </div>
+            
+          </div>
+        </div>
+        </div>
+        <div class="chart-container">
+          <h3>turnRateGain</h3>
+          <div class="param-chart">
+          <div class="param-line" style="border-color: #00ffaa;">
+            
+              <div class="param-point" style="left: 0%; bottom: 36.3419083241221%">
+                <div class="point-tooltip">turnRateGain: 0.106</div>
+              </div>
+            
+              <div class="param-point" style="left: 25%; bottom: 10%">
+                <div class="point-tooltip">turnRateGain: 0.100</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 72.12832691782174%">
+                <div class="point-tooltip">turnRateGain: 0.114</div>
+              </div>
+            
+              <div class="param-point" style="left: 75%; bottom: 13.303614802203903%">
+                <div class="point-tooltip">turnRateGain: 0.101</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 90%">
+                <div class="point-tooltip">turnRateGain: 0.118</div>
+              </div>
+            
+          </div>
+          <div class="param-line" style="border-color: #00ccff;">
+            
+              <div class="param-point" style="left: 0%; bottom: 90%">
+                <div class="point-tooltip">turnRateGain: 0.875</div>
+              </div>
+            
+              <div class="param-point" style="left: 50%; bottom: 32.477299946793806%">
+                <div class="point-tooltip">turnRateGain: 0.322</div>
+              </div>
+            
+              <div class="param-point" style="left: 100%; bottom: 10%">
+                <div class="point-tooltip">turnRateGain: 0.106</div>
+              </div>
+            
+          </div>
+          <div class="chart-legend">
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ffaa;"></span>
+                Run 111520251643
+              </div>
+            
+              <div class="legend-item">
+                <span class="legend-color" style="background: #00ccff;"></span>
+                Run 111525
+              </div>
+            
+          </div>
+        </div>
+        </div>
+
+  </div>
+</body>
+</html>

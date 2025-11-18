@@ -301,6 +301,11 @@
         <span>Quick Start</span>
       </button>
       <div class="hotkey-divider" style="width: 1px; height: 20px; background: rgba(0, 255, 136, 0.3);"></div>
+      <a href="/analysis/enhanced-dashboard.html" class="link-button" id="analysis-dashboard-link" title="Open Enhanced Analysis Dashboard (requires npm run dashboard)">
+        <span>📊</span>
+        <span>Analysis</span>
+      </a>
+      <div class="hotkey-divider" style="width: 1px; height: 20px; background: rgba(0, 255, 136, 0.3);"></div>
       <a href="https://github.com/DanPace725/EmergenceEngine" target="_blank" class="link-button">
         <span>📚</span>
         <span>GitHub</span>
@@ -400,6 +405,8 @@
     <div class="hotkey-item"><span class="hotkey-key">V</span><span class="hotkey-desc">Toggle All</span></div>
     <div class="hotkey-item"><span class="hotkey-key">E</span><span class="hotkey-desc">Screenshot</span></div>
     <div class="hotkey-divider"></div>
+    <div class="hotkey-item"><span class="hotkey-key">D</span><span class="hotkey-desc">Analysis Dashboard</span></div>
+    <div class="hotkey-divider"></div>
     <div class="hotkey-item"><span class="hotkey-key">O</span><span class="hotkey-desc">Config Panel</span></div>
   </div>
   <canvas id="view"></canvas>
@@ -434,6 +441,10 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !quickstartModal.classList.contains('hidden')) {
         hideModal();
+      }
+      // Open analysis dashboard with 'D' key
+      if (e.key === 'd' || e.key === 'D') {
+        window.location.href = '/analysis/enhanced-dashboard.html';
       }
     });
   </script>

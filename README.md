@@ -14,6 +14,7 @@ Emergence Engine simulates resource-seeking agents (called "bundles") in a dynam
 - **Dynamic Ecology** - Plant resources regenerate based on fertility and carrying capacity, creating evolving landscapes
 - **Agent Reproduction** - Agents can split (mitosis) when they gather enough energy, creating population dynamics
 - **Visualization Tools** - Toggle various overlays to see sensing ranges, scent gradients, fertility maps, and agent trails
+- **Analysis Dashboard** - Interactive charts and comparisons of adaptive heuristics training runs (press `D` or click the Analysis button)
 - **Modular Architecture** - Clean separation between simulation core, systems, and UI for easy experimentation
 
 ## Getting Started
@@ -118,6 +119,30 @@ config.js       # Global configuration and tuning parameters
 docs/           # Comprehensive guides and architecture documentation
 tc/             # Turing machine implementations (experimental)
 test/           # Unit tests for core systems
+```
+
+## Analysis Tools
+
+Emergence Engine includes built-in tools for analyzing adaptive heuristics training runs:
+
+### Analysis Dashboard
+- **Access**: Click "📊 Analysis" button in the website header or press `D` key
+- **Features**: Interactive charts comparing multiple training runs, parameter evolution tracking, performance timelines
+- **Setup**: Run `npm run dashboard` to generate and serve the analysis dashboard
+
+### Individual Run Analysis
+Each training run folder contains analysis tools:
+- `ah-analysis.js` - Generates detailed statistics and markdown summaries
+- `ah-analysis-results.json` - Structured data for dashboard consumption
+- `adaptive-heuristics-analysis-summary.md` - Human-readable analysis report
+
+### Batch Processing
+```bash
+# Analyze all runs and generate dashboard
+npm run analyze:dashboard
+
+# Generate and serve dashboard
+npm run dashboard
 ```
 
 ## Documentation
